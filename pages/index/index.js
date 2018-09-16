@@ -26,26 +26,8 @@ Page({
       success: res => {
         console.log(res.data);
         let result = res.data.result;
-        let temp = result.now.temp;
-        let weather = result.now.weather;
-        let nowTime = new Date().getHours();
-        let forecastData = result.forecast.map(item => {
-            return {time:item.id===0?'现在':(item.id*3+nowTime)%24+'时',
-            iconPath:'/pages/images/'+item.weather+'-icon.png',
-            temp:item.temp+'°'
-            };
-        });
-        this.setData({
-          nowTemp: temp + '°',
-          nowWeather: weatherCHN[weather],
-          weatherBg: '/pages/images/' + weather + '-bg.png',
-          forecastWeather:forecastData
-        });
-        wx.setNavigationBarColor({
-          frontColor: '#ffffff',
-          backgroundColor: weatherColor[weather]
-        })
-        console.log(temp, weather);
+        this.setNow(result);
+        this.setForecast(result);
       },
       complete:()=>{
         callback && callback();
@@ -65,5 +47,31 @@ Page({
   },
   onLoad(){
     this.getNow();
+  },
+  setNow(result){
+    let temp = result.now.temp;
+    let weather = result.now.weather;
+    this.setData({
+      nowTemp: temp + '°',
+      nowWeather: weatherCHN[weather],
+      weatherBg: '/pages/images/' + weather + '-bg.png',
+    });
+    wx.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: weatherColor[weather]
+    });
+  },
+  setForecast(result){
+    let nowTime = new Date().getHours();
+    let forecastData = result.forecast.map(item => {
+      return {
+        time: item.id === 0 ? '现在' : (item.id * 3 + nowTime) % 24 + '时',
+        iconPath: '/pages/images/' + item.weather + '-icon.png',
+        temp: item.temp + '°'
+      };
+    });
+    this.setData({
+      forecastWeather: forecastData
+    });
   }
 });
