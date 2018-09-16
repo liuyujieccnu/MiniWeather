@@ -1,0 +1,61 @@
+/**index.wxss**/
+ .temperature{
+    font-size: 200rpx;
+    line-height: 280rpx; 
+    text-align: center;
+    opacity: 0.8;
+ }
+
+ .weather{
+    line-height: 56rpx;
+    font-size: 40rpx;
+    text-align: center;
+    opacity: 0.65;
+ }
+
+ .weather-wrapper{
+    padding: 174rpx 0 250rpx 0;
+    position: relative;
+ }
+
+ .weather-bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+ }
+
+ .time-tips{
+    margin-top: 30rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 45rpx;
+ }
+ 
+  .time-tips-image{
+    height: 28rpx;
+    width: 36rpx;
+    margin-right: 10rpx;
+ }
+
+ .time-tips-text{ 
+    font-size: 30rpx;
+    line-height: 42rpx;
+    opacity: 0.65
+ }
+
+ .forecast-list{
+   display: flex;
+ }
+
+ .forecast-item{
+   display: flex;
+   flex-direction: column;
+   flex-shrink: 0;
+   width: 120rpx;
+   font-size: 36rpx;
+   line-height: 42rpx;
+ }
