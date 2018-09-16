@@ -28,10 +28,18 @@ Page({
         let result = res.data.result;
         let temp = result.now.temp;
         let weather = result.now.weather;
+        let nowTime = new Date().getHours();
+        let forecastData = result.forecast.map(item => {
+            return {time:item.id===0?'现在':(item.id*3+nowTime)%24+'时',
+            iconPath:'/pages/images/'+item.weather+'-icon.png',
+            temp:item.temp+'°'
+            };
+        });
         this.setData({
           nowTemp: temp + '°',
           nowWeather: weatherCHN[weather],
-          weatherBg: '/pages/images/' + weather + '-bg.png'
+          weatherBg: '/pages/images/' + weather + '-bg.png',
+          forecastWeather:forecastData
         });
         wx.setNavigationBarColor({
           frontColor: '#ffffff',
@@ -53,7 +61,7 @@ Page({
     nowTemp:'',
     nowWeather:'',
     weaterBg:'',
-    forecast: [1,2,3,4,5,6,7,8,9]
+    forecast: []
   },
   onLoad(){
     this.getNow();
