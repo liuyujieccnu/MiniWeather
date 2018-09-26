@@ -28,6 +28,7 @@ Page({
         let result = res.data.result;
         this.setNow(result);
         this.setForecast(result);
+        this.setToday(result);
       },
       complete:()=>{
         callback && callback();
@@ -43,7 +44,9 @@ Page({
     nowTemp:'',
     nowWeather:'',
     weaterBg:'',
-    forecast: []
+    forecast: [],
+    todayTemp:"",
+    todayData:"",
   },
   onLoad(){
     this.getNow();
@@ -73,5 +76,17 @@ Page({
     this.setData({
       forecastWeather: forecastData
     });
+  },
+  setToday(result){
+    let date = new Date();
+    this.setData({
+      todayDate:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} 今天`,
+      todayTemp:`${result.today.minTemp}°~${result.today.maxTemp}°`,
+    });
+  },
+  onTapDayWeather(){
+    wx.navigateTo({
+      url: '/pages/list/list',
+    })
   }
 });

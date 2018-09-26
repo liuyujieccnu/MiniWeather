@@ -1,0 +1,33 @@
+/* pages/list/list.wxss */
+.date-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  height: 150rpx;
+  margin: 0 40rpx;
+}
+
+.weather-icon{
+  width: 90rpx;
+  height: 90rpx;
+}
+
+.date-wapper{
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.day{
+  opacity: 0.8;
+  font-size: 40rpx;
+  line-height: 56rpx;
+  text-align: center;
+}
+
+.date{
+  opacity: 0.5;
+  font-size: 25rpx;
+  line-height: 35rpx;
+}
