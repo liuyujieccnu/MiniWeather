@@ -1,4 +1,11 @@
 <view class="weather-wrapper">
+  <view class='location-wrapper'>
+    <view class='location'>
+      <image src='/pages/images/location-icon.png' class='location-img'></image>
+      <view class='location-text'>武汉市</view>
+    </view>
+    <view class='location-tips'>点击获取当前位置</view>
+  </view>
   <view class="temperature">{{nowTemp}}</view>
   <view class="weather">{{nowWeather}}</view>
   <image src="{{weatherBg}}" mode='scaleToFill' class='weather-bg'></image>

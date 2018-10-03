@@ -86,7 +86,9 @@ Page({
       }
     })
   },
-
+  /**
+   * 程序获取数据函数
+   */
   setDayWeather(result){
     let nowDay = new Date();
     let nowDayWeather=result.map((item,index)=>{
@@ -103,7 +105,9 @@ Page({
       dayWeather:nowDayWeather,
     });
   },
-
+  /**
+   * 下拉刷新相关函数
+   */
   onPullDownRefresh:function(){
     this.getDayWeather(()=>{
       wx.stopPullDownRefresh();
