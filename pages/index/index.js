@@ -16,12 +16,33 @@ const weatherColor={
   'snow': '#aae1fc'
 }
 
+const UNPROMPTED = 0
+const UNAUTHORIZED = 1
+const AUTHORIZED = 2
+
+const UNPROMPTED_TIPS = "点击获取当前位置"
+const UNAUTHORIZED_TIPS = "点击开启位置权限"
+const AUTHORIZED_TIPS = ""
+
+const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+
 Page({
+  data: {
+    nowTemp: '',
+    nowWeather: '',
+    weaterBg: '',
+    forecast: [],
+    todayTemp: "",
+    todayData: "",
+    locality: "武汉市",
+    locationGetTips: UNPROMPTED_TIPS,
+    locationAuth: UNPROMPTED,
+  },
   getNow(callback){
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
-        city: '武汉市',
+        city: this.data.locality,
       },
       success: res => {
         console.log(res.data);
@@ -40,15 +61,10 @@ Page({
       wx.stopPullDownRefresh();
     });
   },
-  data:{
-    nowTemp:'',
-    nowWeather:'',
-    weaterBg:'',
-    forecast: [],
-    todayTemp:"",
-    todayData:"",
-  },
   onLoad(){
+    this.qqmapsdk = new QQMapWX({
+      key:'T6EBZ-XNX3I-5EDGI-5YIOZ-QXKKO-NBFN7'
+    });
     this.getNow();
   },
   setNow(result){
@@ -86,7 +102,51 @@ Page({
   },
   onTapDayWeather(){
     wx.navigateTo({
-      url: '/pages/list/list',
+      url: `/pages/list/list?locality=${this.data.locality}`,
     })
+  },
+  onTapLocation(){
+    this.getLocation();
+  },
+  getLocation(){
+    wx.getLocation({
+      success: res => {
+        console.log(res);
+        this.qqmapsdk.reverseGeocoder({
+          location: {
+            latitude: res.latitude,
+            longitude: res.longitude
+          },
+          success: res => {
+            console.log(res);
+            let nowCity = res.result.address_component.locality;
+            console.log(nowCity);
+            this.setData({
+              locality: nowCity,
+              locationGetTips: AUTHORIZED_TIPS,
+              locationAuth: AUTHORIZED
+            });
+            this.getNow();
+          },
+          fail: function (res) {
+            console.log(res);
+          },
+          complete: function (res) {
+            console.log(res);
+          }
+        });
+      },
+      fail: res => {
+        console.log(res);
+        console.log(this.data.locationAuth);
+        if (res.errMsg === "getLocation:fail auth deny") {
+          this.setData({
+            locationGetTips: UNAUTHORIZED_TIPS,
+            locationAuth: UNAUTHORIZED
+          });
+          console.log(this.data.locationAuth);
+        }
+      }
+    });
   }
 });

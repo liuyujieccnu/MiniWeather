@@ -1,11 +1,11 @@
 <view class="weather-wrapper">
-  <view class='location-wrapper'>
+  <button class='location-wrapper'  open-type="{{ locationAuth==1 ? 'openSetting' : ''}}"  bindopensetting="onTapLocation" bindtap='onTapLocation' plain='true'>
     <view class='location'>
       <image src='/pages/images/location-icon.png' class='location-img'></image>
-      <view class='location-text'>武汉市</view>
+      <view class='location-text'>{{locality}}</view>
     </view>
-    <view class='location-tips'>点击获取当前位置</view>
-  </view>
+    <view class='location-tips' >{{locationGetTips}}</view>
+  </button>
   <view class="temperature">{{nowTemp}}</view>
   <view class="weather">{{nowWeather}}</view>
   <image src="{{weatherBg}}" mode='scaleToFill' class='weather-bg'></image>

@@ -14,39 +14,36 @@
  }
 
  .weather-wrapper{
-    padding: 174rpx 0 250rpx 0;
+    padding: 20rpx 0 250rpx 0;
     position: relative;
  }
 
  .location-wrapper{
-   position: absolute;
-   left: 50%;
-   margin-left: -122.5rpx;
-   top: 20rpx;
-   font-size: 30rpx;
    line-height: 42rpx;
-   
+   font-size: 30rpx;
+   margin-bottom: 60 rpx;
+   border: none!important;
+   color: rgba(0, 0, 0, 0.5)!important;
+   padding: 0!important;
  }
 
  .location{
    display: flex;
-   text-align: center;
-   align-items: center;
    justify-content: center;
+   align-items: center;
  }
  
  .location-img{
-   height: 30rpx;
-   width: 21rpx;
    margin-right: 10rpx;
+   width: 21rpx;
+   height: 30rpx;
  }
 
- .location-text{
-   opacity: 0.5;
- }
-
+ 
  .location-tips{
-   opacity: 0.5;
+   height: 42rpx; /*固定高度, 没字时也有高度*/
+   margin-top:10rpx;
+   text-align: center;
  }
 
  .weather-bg{
@@ -131,10 +128,6 @@
    flex-grow: 1;
    padding-right:30rpx;
    text-align: right; 
- }
-
- .day-text{
-   
  }
 
  

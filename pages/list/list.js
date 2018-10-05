@@ -8,12 +8,17 @@ Page({
    */
   data: {
     dayWeather:[],
+    locality:"武汉市",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options.locality);
+    this.setData({
+      locality:options.locality,
+    });
     this.getDayWeather();
   },
 
@@ -73,7 +78,7 @@ Page({
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/future',
       data: {
-        city: '武汉市',
+        city: this.data.locality,
         time: new Date().getTime(),
       },
       success: res=>{
