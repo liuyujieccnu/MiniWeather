@@ -20,10 +20,6 @@ const UNPROMPTED = 0
 const UNAUTHORIZED = 1
 const AUTHORIZED = 2
 
-const UNPROMPTED_TIPS = "点击获取当前位置"
-const UNAUTHORIZED_TIPS = "点击开启位置权限"
-const AUTHORIZED_TIPS = ""
-
 const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 
 Page({
@@ -35,7 +31,6 @@ Page({
     todayTemp: "",
     todayData: "",
     locality: "武汉市",
-    locationGetTips: UNPROMPTED_TIPS,
     locationAuth: UNPROMPTED,
   },
   getNow(callback){
@@ -62,10 +57,50 @@ Page({
     });
   },
   onLoad(){
+    console.log('onLoad');
     this.qqmapsdk = new QQMapWX({
       key:'T6EBZ-XNX3I-5EDGI-5YIOZ-QXKKO-NBFN7'
     });
-    this.getNow();
+    wx.getSetting({
+      success:res=>{
+        let auth=res.authSetting['scope.userLocation'];
+        this.setData({
+          locationAuthType: auth ? AUTHORIZED
+            : (auth === false) ? UNAUTHORIZED : UNPROMPTED
+        });
+        if (auth)
+          this.getCityAndWeather();
+        else
+          this.getNow(); //使用默认城市广州
+      },
+      fail:()=>{
+        this.getNow();
+      }
+    });
+    
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    console.log('onReady');
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+    console.log('onHide');
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+    console.log('onUnload');
+  },
+  onShow(){
+    console.log('onShow');
   },
   setNow(result){
     let temp = result.now.temp;
@@ -106,12 +141,15 @@ Page({
     })
   },
   onTapLocation(){
-    this.getLocation();
+      this.getCityAndWeather();
   },
-  getLocation(){
+  getCityAndWeather(){
     wx.getLocation({
       success: res => {
-        console.log(res);
+        //console.log(res);
+        this.setData({
+          locationAuthType: AUTHORIZED,
+        })
         this.qqmapsdk.reverseGeocoder({
           location: {
             latitude: res.latitude,
@@ -123,7 +161,6 @@ Page({
             console.log(nowCity);
             this.setData({
               locality: nowCity,
-              locationGetTips: AUTHORIZED_TIPS,
               locationAuth: AUTHORIZED
             });
             this.getNow();
@@ -137,14 +174,13 @@ Page({
         });
       },
       fail: res => {
-        console.log(res);
-        console.log(this.data.locationAuth);
+        //console.log(res);
+        //console.log(this.data.locationAuth);
         if (res.errMsg === "getLocation:fail auth deny") {
           this.setData({
-            locationGetTips: UNAUTHORIZED_TIPS,
             locationAuth: UNAUTHORIZED
           });
-          console.log(this.data.locationAuth);
+          //console.log(this.data.locationAuth);
         }
       }
     });

@@ -4,7 +4,9 @@
       <image src='/pages/images/location-icon.png' class='location-img'></image>
       <view class='location-text'>{{locality}}</view>
     </view>
-    <view class='location-tips' >{{locationGetTips}}</view>
+    <view wx:if="{{locationAuth==0}}" class='location-tips' >点击获取当前位置</view>
+    <view wx:if="{{locationAuth==1}}" class='location-tips' >点击获取位置权限</view>
+    <view wx:if="{{locationAuth==2}}" class='location-tips' ></view>
   </button>
   <view class="temperature">{{nowTemp}}</view>
   <view class="weather">{{nowWeather}}</view>
